@@ -7,12 +7,12 @@ Deduplicates and compresses an SVG file using Javascript.
 
 > It creates Javascript files that provide the SVG code.
 
-Uses [JCrush](https://www.npmjs.com/package/jcrush), see that project for more info (and an in-built plugin for
-compressing Javascript files).  You should merge, minify, and reprocess the main output file produced with
-`JCrush SVG` using `JCrush` for further optimisation.
-
-If you'd like to optimise your HTML output (more than minifiers), see also [HyperCrush](https://www.npmjs.com/package/hypercrush).
-
+-- Uses [JCrush](https://www.npmjs.com/package/jcrush).  See that project for more info (and an in-built plugin for
+compressing Javascript files).
+-- You should merge, minify, and reprocess the main output file produced with
+this module using `JCrush` for further optimization.
+-- If you don't want deduplication and just need something to optimize SVG/HTML code (more than
+minifiers), see [HyperCrush](https://www.npmjs.com/package/hypercrush).
 
 ## Installation
 
