@@ -3,7 +3,7 @@
 JCrush SVG
 ==========
 
-Deduplicates and compresses a SVG file using Javascript.
+Deduplicates and compresses an SVG file using Javascript.
 
 > It creates Javascript files that provide the SVG code.
 
@@ -28,20 +28,37 @@ or with Yarn:
 
 `yarn add jcrushsvg`
 
-## Setup
+## Setup Instructions
 
-1) Put all the relevant SVG files in one directory, e.g. `/src/svg`.
-2) Choose whether to use the terminal, a custom script, or Gulp to process the directory with this module.  Then refer to the `Usage` section below.
-3) Write your Javascript code in such a way that instead of using those images in an IMG tag,
-it will call a function with the file's basename (slug).  Usage of the function differs based on whether the `bundle` option was set.
--- If `bundle` is `false` (default) The functionality is asynchronous. To load the SVG code into a DOM element use: `svg('main-logo', document.getElementById("logo"))`
-  Note: This replaces whatever was in the #logo element already, so code accordingly.
--- If `bundle` is `true` The SVG code is stored in the main JS file. The func will return the SVG code like so: `var svgCode = svg('main-logo')`
-4) Include the main Javascript `outFile` in your HTML, or use some sort of automation to merge it into your scripts.
-(There is no need to include each individual image's corresponding JS file)
-5) You should merge/minify/[compress](https://www.npmjs.com/package/jcrush) the main `outFile` as you would with your own code,
-as this module leaves that file in a human-readable state.
+1. **Place all relevant SVG files in one directory:**
+   - Example: `/src/svg`
 
+2. **Choose a processing method:**
+   - Decide whether to use the terminal, a custom script, or Gulp to process the directory with this module.
+   - Refer to the `Usage` section below for further instructions.
+
+3. **Modify your Javascript code:**
+   - Instead of using the SVG images in an `<img>` tag, call a function with the file's basename (slug).
+   - The usage differs based on the `bundle` option:
+     - **If `bundle` is `false` (default):**
+       - The functionality is asynchronous. To load the SVG code into a DOM element, use:
+         ```js
+         svg('main-logo', document.getElementById("logo"))
+         ```
+       - **Note:** This will replace whatever is already inside the `#logo` element, so plan your code accordingly.
+     - **If `bundle` is `true`:**
+       - The SVG code is stored in the main JS file. The function will return the SVG code like so:
+         ```js
+         var svgCode = svg('main-logo')
+         ```
+
+4. **Include the main Javascript `outFile` in your HTML:**
+   - Or, use some automation to merge it into your scripts.
+   - **Note:** There's no need to include each individual image's corresponding JS file.
+
+5. **Merge/minify/compress the main `outFile`:**
+   - You should merge, minify, or [compress](https://www.npmjs.com/package/jcrush) the main `outFile` as you would with your own code.
+   - **Note:** This module leaves that file in a human-readable state.
 ## Usage
 
 
