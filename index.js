@@ -15,6 +15,7 @@ let jcrushsvg = opts => {
   opts = { ...{ inDir: '', outDir: '', outFile: 'svg.js', bundle: 0, processSVG: null, processJS: null, prog: 1, tpl: 1,
     tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: '', resVars: ['el', 'k'], let: 1 }, ...opts };
   opts.break.push(breakString);
+  if (!opts.outDir) opts.outDir = opts.inDir;
   fs.readdirSync(opts.inDir).filter(file => path.extname(file) == '.svg').forEach(file => {
     opts.prog && console.log("Loading SVG file", file);
     let filePath = path.join(folderPath, file),

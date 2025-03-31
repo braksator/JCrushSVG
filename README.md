@@ -128,7 +128,7 @@ To run **JCrush SVG** before your minification tasks, add JCrush SVG in series b
 ```javascript
 gulp.task('default', gulp.series(
   'svg' // Run it before your other stuff.  Probably.
-  gulp.parallel('minify-svg', 'minify-js', 'minify-html'),
+  gulp.parallel('minify-css', 'minify-js', 'minify-html'),
 ));
 ```
 
@@ -156,14 +156,14 @@ A configuration object with the following properties:
   - The name of the function to create that will provide SVG code.
 
 - `bundle` (Boolean, default: `false`):
-  - If `true`, will load all the SVG code into the main `outFile` instead of separate files.  The SVGs are preloade
+  - If `true`, will load all the SVG code into the main `outFile` instead of separate files.  The SVGs are preloaded
   and the SVG function will return SVG code as a string.
-  - If `false`, will load individual JS files on an as-needed basis, reducing loading overhead. The SVG function accepts a DOM element
+  - If `false`, will load SVGs from individual JS files on an as-needed basis, reducing loading overhead. The SVG function accepts a DOM element
   and will replace its contents with the SVG once it is loaded.
 
 - `appendExt` (Boolean, default: `true`):
-  - If `true`, will create the individual js files with ".svg.js" extensions.
-  - If `false`, will create the individual js files with just ".js" extensions.
+  - If `true`, will create the individual JS files with ".svg.js" extensions.
+  - If `false`, will create the individual JS files with just ".js" extensions.
 
 - `processSVG` (Function, default: `null`):
   A function to run custom validation/preprocessing on each SVG tag.  2 params: filePath, svgContent. Throw error to halt
@@ -188,8 +188,9 @@ package, however if they're not listed above then changing them may break this m
 
 ## Unnecessary Reprocessing
 
-To prevent unnecessarily reprocessing files consider using [gulp-changed](https://www.npmjs.com/package/gulp-changed),
+To prevent unnecessarily reprocessing files when using with gulp consider using [gulp-changed](https://www.npmjs.com/package/gulp-changed),
 [gulp-cached](https://www.npmjs.com/package/gulp-cached), or [gulp-newer](https://www.npmjs.com/package/gulp-newer).
+However, note that since this module processes a whole folder at a time, simply adding one file will require all the files to be reprocessed.
 
 ---
 
