@@ -123,7 +123,7 @@ gulp.task('svg', (done) => {
 
 #### Step 3: (Optional) Run **JCrush SVG** Before Minification
 
-To run **JCrush SVG** after your minification tasks, add JCrush SVG in series after other tasks, such as in this example:
+To run **JCrush SVG** before your minification tasks, add JCrush SVG in series before other tasks, such as in this example:
 
 ```javascript
 gulp.task('default', gulp.series(
