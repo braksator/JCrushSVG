@@ -13,7 +13,7 @@ var jcrush = require('jcrush');
 let jcrushsvg = opts => {
   let svgItems = {}, joinString = '★', breakString = '•';
   opts = { ...{ inDir: '', outDir: '', outFile: 'svg.js', bundle: 0, processSVG: null, processJS: null, prog: 1, tpl: 1, break: [],
-    tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: '', resVars: [], let: 1, maxLen: 120 }, ...opts };
+    tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: ',', resVars: [], let: 1, maxLen: 120 }, ...opts };
   opts.break.push(breakString);
   opts.resVars.push('k');
   opts.resVars.push('el');
@@ -56,11 +56,11 @@ let jcrushsvg = opts => {
     });
     if (opts.bundle) {
       funcCode = `k => {
-    ${enc[0]}
-    return {
-        ${Object.entries(svgObject).map(([key, value]) => `${key}: ${value}`).join(",\n    ")}
-      }[k];
-  }`;
+  ${enc[0]}
+  return {
+    ${Object.entries(svgItems).map(([key, value]) => `${key}: ${value}`).join(",\n    ")}
+  }[k];
+}`;
     }
     else {
       let ext = opts.appendExt ? '.svg.js' : '.js';

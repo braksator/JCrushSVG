@@ -7,11 +7,11 @@ Deduplicates and compresses an SVG file using Javascript.
 
 > It creates Javascript files that provide the SVG code.
 
--- Uses [JCrush](https://www.npmjs.com/package/jcrush).  See that project for more info (and an in-built plugin for
+- Uses [JCrush](https://www.npmjs.com/package/jcrush).  See that project for more info (and an in-built plugin for
 compressing Javascript files).
--- You should merge, minify, and reprocess the main output file produced with
+- You should merge, minify, and reprocess the main output file produced with
 this module using `JCrush` for further optimization.
--- If you don't want deduplication and just need something to optimize SVG/HTML code (more than
+- If you don't want deduplication and just need something to optimize SVG/HTML code (more than
 minifiers), see [HyperCrush](https://www.npmjs.com/package/hypercrush).
 
 ## Installation
@@ -199,7 +199,7 @@ This is an example of a use-case of this module where a number of SVGs were desi
 
 The goal is to be able to control the SVG's colors and opacity via Javascript.
 
-- The SVGs were all made with 2 colors, with the main color being #64bc41 (moderate green)
+- The SVGs were all made with 2 colors, the main color being #64bc41 (moderate green)
 - A secondary color was made dark-grey (evidently using black is not compatible with this!)
 - Some shapes were made with 20% opacity, but that would need to be fine tuned based on the dynamic color too.
 
@@ -213,7 +213,7 @@ The custom SVG processing script:
 ```js
 const jcrushSVG = require('jcrushsvg');
 
-jcrushSVG({ inDir: './src/img/items', outDir: './img/items', outFile: './src/svgItems.js',
+jcrushSVG({ inDir: './src/img/items', outFile: './src/svgItems.js',
   bundle: 1, maxLen: 120, funcName: 'svgItems', resVars: ['bg', 'fg', 'op'],
   processSVG: (filePath, svgContent) => {
     // Replaces color codes with placeholders
