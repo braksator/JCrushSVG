@@ -165,7 +165,7 @@ A configuration object with the following properties:
   - If `true`, will create the individual JS files with ".svg.js" extensions.
   - If `false`, will create the individual JS files with just ".js" extensions.
 
-- `maxLen` (Number, default: `120`):
+- `maxLen` (Number, default: `40`):
   - The maximum length of substrings to consider.  Setting this higher will slow things down.
 
 - `resVars` (Array, default: `['el', 'k']`):
