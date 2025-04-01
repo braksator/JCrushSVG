@@ -14,7 +14,7 @@ let jcrushsvg = opts => {
   let svgItems = {}, joinString = '★', breakString = '•';
   opts = { ...{ inDir: '', outDir: '', outFile: 'svg.js', bundle: 0, processSVG: null, processJS: null, prog: 1, tpl: 1, break: [],
     tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: ',', resVars: [], let: 1, maxLen: 120 }, ...opts };
-  if (opts.checkNew && !fs.existsSync(opts.outFile) || !fs.readdirSync(opts.inDir).some(f => fs.statSync(path.join(opts.inDir, f)).mtime > fs.statSync(opts.outFile).mtime)) {
+  if (opts.checkNew && fs.existsSync(opts.outFile) && !fs.readdirSync(opts.inDir).some(f => fs.statSync(path.join(opts.inDir, f)).mtime > fs.statSync(opts.outFile).mtime)) {
     console.log(`JCrush SVG checked ${opts.inDir} and determined ${opts.outFile} is already up-to-date. ✔️`);
     return;
   }
