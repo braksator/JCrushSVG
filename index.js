@@ -13,8 +13,10 @@ var jcrush = require('jcrush');
 let jcrushsvg = opts => {
   let svgItems = {}, joinString = '★', breakString = '•';
   opts = { ...{ inDir: '', outDir: '', outFile: 'svg.js', bundle: 0, processSVG: null, processJS: null, prog: 1, tpl: 1, break: [],
-    tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: '', resVars: ['el', 'k'], let: 1, maxLen: 120 }, ...opts };
+    tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: '', resVars: [], let: 1, maxLen: 120 }, ...opts };
   opts.break.push(breakString);
+  opts.resVars.push('k');
+  opts.resVars.push('el');
   if (!opts.outDir) opts.outDir = opts.inDir;
   try {
     fs.readdirSync(opts.inDir).filter(file => path.extname(file) == '.svg').forEach(file => {

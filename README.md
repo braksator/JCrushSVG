@@ -168,6 +168,10 @@ A configuration object with the following properties:
 - `maxLen` (Number, default: `120`):
   - The maximum length of substrings to consider.  Setting this higher will slow things down.
 
+- `resVars` (Array, default: `['el', 'k']`):
+  Supply an array of variable names that JCrush must NOT use for some reason.  This module will reserve 'el' and 'k',
+  so don't use those for anything else.
+
 - `processSVG` (Function, default: `null`):
   A function to run custom validation/preprocessing on each SVG tag.  2 params: filePath, svgContent. Throw error to halt
    processing. Return the changed SVG code.
@@ -186,6 +190,53 @@ A configuration object with the following properties:
 
 Additionally; `JCrush SVG` can accept the options of the underlying [JCrush](https://www.npmjs.com/package/jcrush)
 package, however if they're not listed above then changing them may break this module's functionality.  Tread carefully.
+
+---
+
+## Dynamic Colors
+
+This is an example of a use-case of this module where a number of SVGs were designed to be dynamically recolored with Javascript.
+
+The goal is to be able to control the SVG's colors and opacity via Javascript.
+
+-- The SVGs were all made with 2 colors, with the main color being #64bc41 (moderate green)
+-- A secondary color was made dark-grey (evidently using black is not compatible with this!)
+-- Some shapes were made with 20% opacity, but that would need to be fine tuned based on the dynamic color too.
+
+Approach:
+-- Use the `processSVG` callback to add 3 placeholders to: #64bc41, other colors, and opacity values.   The placeholder selected was an appropriate emoji.
+-- Use the `processJS` callback to rectify the placeholders to suitable template literals, and modify the function to accept corresponding parameters.
+-- Use the `resVars` feature to reserve the custom parameters.
+
+The custom SVG processing script:
+
+```js
+const jcrushSVG = require('jcrushsvg');
+
+jcrushSVG({ inDir: './src/img/items', outDir: './img/items', outFile: './src/svgItems.js',
+  bundle: 1, maxLen: 120, funcName: 'svgItems', resVars: ['bg', 'fg', 'op'],
+  processSVG: (filePath, svgContent) => {
+    // Replaces color codes with placeholders
+    return svgContent.replace(new RegExp('#64bc41', 'gi'), '🟩') // Background
+      .replace(/#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}/gi, '⬛') // Foreground
+      .replace(/opacity="([^"]+)"/gi, 'opacity="🔲"'); // Opacity
+  },
+  processJS:(filePath, jsContent) => {
+    return jsContent.replace('k =>', '(k, bg, fg, op) =>')
+      .replace('🟩', '${bg}')
+      .replace('⬛', '${fg}')
+      .replace('🔲', '${op}');
+  },
+});
+
+```
+
+Now our app can specify the colors it needs:
+
+```js
+// Calls svgItems() to get the SVG code based on item's attributes.
+let itemImage = item => svgItems(item.key, item.bgColor, item.fgColor, item.opacity);
+```
 
 ---
 
