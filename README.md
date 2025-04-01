@@ -68,7 +68,7 @@ It may be sufficient to just run:
 
 `node node_modules/jcrushsvg --inDir="/src/svg" --outDir="/svg" --outFile="svg.js"`
 
-Once and you're done.
+...once and you're done.
 
 ### Write a Custom Script
 
@@ -76,7 +76,7 @@ Create a file `svgTask.js` with the contents:
 
 ```javascript
 import jcrushSVG from 'jcrushsvg';
-let opts = { inDir: '/src/svg', outDir: '/svg', outFile: 'svg.js', processFile:(filePath, svgContent) => {
+let opts = { inDir: '/src/svg', outDir: '/svg', outFile: 'svg.js', processSVG:(filePath, svgContent) => {
   // Check there is no version or it's v1.1... that's the cool one.
   if (svgContent.includes('version=') && !svgContent.includes('version="1.1"')) {
     throw new Error(`SVG in ${filePath} does not have version="1.1". Ensure you set "SVG Profile: SVG 1.1" in save-as dialogue of Adobe Illustrator.`);
@@ -91,14 +91,14 @@ let opts = { inDir: '/src/svg', outDir: '/svg', outFile: 'svg.js', processFile:(
   }
   return svgContent;
 }};
-jcrushSVG({opts});
+jcrushSVG(opts);
 ```
 
 Then run this command:
 
 `node svgTask`
 
-Whenever you've added a new SVG file to the directory.
+...whenever you've added a new SVG file to the directory.
 
 ### With Gulp
 
@@ -116,7 +116,7 @@ import jcrushSVG from 'jcrushsvg';
 ```javascript
 gulp.task('svg', (done) => {
   let opts = { inDir: '/src/svg', outDir: '/svg', outFile: 'svg.js' };
-  jcrushSVG({opts});
+  jcrushSVG(opts);
   done(); // Signal completion
 });
 ```
