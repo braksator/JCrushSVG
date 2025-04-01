@@ -180,6 +180,10 @@ A configuration object with the following properties:
   A function to run custom processing on JS output. 2 params: filePath, jsContent. Throw error to halt processing. Return the
   changed JS code.
 
+- `checkNew` (Boolean, default: `false`):
+  - If `true`, will not run if the `outFile` exists and is newer than all of the SVG files in `inDir`.
+  - If `false`, will re-run everytime.
+
 - `prog` (Boolean, default: `true`):
   - If `true`, will output console messages when making progress.
   - If `false`, will work silently.
