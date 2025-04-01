@@ -23,7 +23,7 @@ let jcrushsvg = opts => {
         svgTagMatch = fs.readFileSync(filePath, 'utf8').match(/<svg[^>]*>[\s\S]*<\/svg>/),
         svgContent = svgTagMatch ? svgTagMatch[0] : null;
       if (opts.processSVG) svgContent = opts.processSVG(filePath, svgContent);
-      svgContent = svgContent
+      svgItems[path.basename(file, '.svg')] = svgContent
         .replace(/\s+version="[^"]*"/, '') // Remove version attr
         .replace(/\s*baseProfile="[^"]*"/i, '')  // Remove baseProfile attr
         .replace(/\s+id="[^"]*"/, '') // Remove id attr
@@ -42,8 +42,10 @@ let jcrushsvg = opts => {
         .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
         .replace(/\s+/g, ' ').trim() // Remove redundant whitespace
         .replace(/\s*(["']?)\s*\/>/g, '$1/>'); // Remove extra space at end of self-closing tags
-      svgItems[path.basename(file, '.svg')] = svgContent;
     });
+    if (!Object.keys(svgItems).length) {
+      throw new Error(`Did not find any SVG files in ${opts.inDir} folder.`);
+    }
     let funcCode,
       keys = Object.keys(svgItems),
       enc = jcrush.code(Object.values(svgItems).join(breakString), opts).split(joinString);
@@ -75,7 +77,6 @@ let ${opts.funcName} = ${funcCode}`;
     opts.prog && console.log('Main SVG JS file created: ' + opts.outFile);
   }
   catch (err) {
-
     console.error('🛑', err.message);
     process.exit(1);
   }
