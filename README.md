@@ -115,7 +115,7 @@ import jcrushSVG from 'jcrushsvg';
 
 ```javascript
 gulp.task('svg', (done) => {
-  let opts = { inDir: '/src/svg', outDir: '/svg', outFile: 'svg.js' };
+  let opts = { inDir: '/src/svg', outDir: '/svg', outFile: 'svg.js', checkNew: 1 };
   jcrushSVG(opts);
   done(); // Signal completion
 });
@@ -181,7 +181,7 @@ A configuration object with the following properties:
   changed JS code.
 
 - `checkNew` (Boolean, default: `false`):
-  - If `true`, will not run if the `outFile` exists and is newer than all of the SVG files in `inDir`.
+  - If `true`, will not run if the `outFile` exists and is newer than all of the files in `inDir`.
   - If `false`, will re-run everytime.
 
 - `prog` (Boolean, default: `true`):
@@ -241,14 +241,6 @@ Now our app can specify the colors it needs:
 // Calls svgItems() to get the SVG code based on item's attributes.
 let itemImage = item => svgItems(item.key, item.bgColor, item.fgColor, item.opacity);
 ```
-
----
-
-## Unnecessary Reprocessing
-
-To prevent unnecessarily reprocessing files when using with gulp consider using [gulp-changed](https://www.npmjs.com/package/gulp-changed),
-[gulp-cached](https://www.npmjs.com/package/gulp-cached), or [gulp-newer](https://www.npmjs.com/package/gulp-newer).
-However, note that since this module processes a whole folder at a time, simply adding one file will require all the files to be reprocessed.
 
 ---
 
