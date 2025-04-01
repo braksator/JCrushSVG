@@ -165,6 +165,9 @@ A configuration object with the following properties:
   - If `true`, will create the individual JS files with ".svg.js" extensions.
   - If `false`, will create the individual JS files with just ".js" extensions.
 
+- `maxLen` (Number, default: `120`):
+  - The maximum length of substrings to consider.  Setting this higher will slow things down.
+
 - `processSVG` (Function, default: `null`):
   A function to run custom validation/preprocessing on each SVG tag.  2 params: filePath, svgContent. Throw error to halt
    processing. Return the changed SVG code.

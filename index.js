@@ -13,7 +13,7 @@ var jcrush = require('jcrush');
 let jcrushsvg = opts => {
   let svgItems = {}, joinString = '★', breakString = '•';
   opts = { ...{ inDir: '', outDir: '', outFile: 'svg.js', bundle: 0, processSVG: null, processJS: null, prog: 1, tpl: 1, break: [],
-    tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: '', resVars: ['el', 'k'], let: 1 }, ...opts };
+    tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: '', resVars: ['el', 'k'], let: 1, maxLen: 120 }, ...opts };
   opts.break.push(breakString);
   if (!opts.outDir) opts.outDir = opts.inDir;
   try {
@@ -72,7 +72,7 @@ let jcrushsvg = opts => {
 // It contains SVG code for use in the application.
 // Generated from SVG files in the ${opts.inDir} folder.
 let ${opts.funcName} = ${funcCode}`;
-    if (opts.processJS) jsContent = opts.processJS.call(opts.outFile, jsContent);
+    if (opts.processJS) jsContent = opts.processJS(opts.outFile, jsContent);
     fs.writeFileSync(opts.outFile, jsContent);
     opts.prog && console.log('Main SVG JS file created: ' + opts.outFile);
   }
