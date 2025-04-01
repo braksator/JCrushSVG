@@ -199,14 +199,14 @@ This is an example of a use-case of this module where a number of SVGs were desi
 
 The goal is to be able to control the SVG's colors and opacity via Javascript.
 
--- The SVGs were all made with 2 colors, with the main color being #64bc41 (moderate green)
--- A secondary color was made dark-grey (evidently using black is not compatible with this!)
--- Some shapes were made with 20% opacity, but that would need to be fine tuned based on the dynamic color too.
+- The SVGs were all made with 2 colors, with the main color being #64bc41 (moderate green)
+- A secondary color was made dark-grey (evidently using black is not compatible with this!)
+- Some shapes were made with 20% opacity, but that would need to be fine tuned based on the dynamic color too.
 
 Approach:
--- Use the `processSVG` callback to add 3 placeholders to: #64bc41, other colors, and opacity values.   The placeholder selected was an appropriate emoji.
--- Use the `processJS` callback to rectify the placeholders to suitable template literals, and modify the function to accept corresponding parameters.
--- Use the `resVars` feature to reserve the custom parameters.
+- Use the `processSVG` callback to add 3 placeholders to: #64bc41, other colors, and opacity values.   The placeholder selected was an appropriate emoji.
+- Use the `processJS` callback to rectify the placeholders to suitable template literals, and modify the function to accept corresponding parameters.
+- Use the `resVars` feature to reserve the custom parameters.
 
 The custom SVG processing script:
 
