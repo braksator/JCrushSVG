@@ -30,24 +30,26 @@ let jcrushsvg = opts => {
         svgContent = svgTagMatch ? svgTagMatch[0] : null;
       if (opts.processSVG) svgContent = opts.processSVG(filePath, svgContent);
       svgItems[path.basename(file, '.svg')] = svgContent
-        .replace(/\s+version="[^"]*"/, '') // Remove version attr
-        .replace(/\s*baseProfile="[^"]*"/i, '')  // Remove baseProfile attr
-        .replace(/\s+id="[^"]*"/, '') // Remove id attr
-        .replace(/\s*xmlns:xlink="http:\/\/www\.w3\.org\/1999\/xlink"\s*|\s*x="0px"\s*|\s*y="0px"*/g, '') // Remove xmlns attr
-        .replace(/\s*xml:space="preserve"*/g, '') // Remove xml:space attr
-        .replace(/\s*enable-background="[^"]*"/g, '') // Remove enable-background attr
-        .replace(/\b0\./g, '.') // Remove leading zero for decimal numbers
-        .replace(/>\s+</g, '><') // Remove spaces between tags
-        .replace(/\s*class="[^"]*"*/g, '') // Remove class attr
-        .replace(/\s+>/g, '>') // Remove space before >
+        // Strip attrs
+        .replace(/\s*version="[^"]*"/gi, '') // Remove version attr
+        .replace(/\s*baseProfile="[^"]*"/gi, '')  // Remove baseProfile attr
+        .replace(/\s*id="[^"]*"/gi, '') // Remove id attr
+        .replace(/\s*xmlns:xlink="[^"]*"/gi, '') // Remove xmlns:xlink attr
+        .replace(/\s*xmlns="[^"]*"/gi, '') // Remove xmlns attr
+        .replace(/\s*xml:space="preserve"/gi, '') // Remove xml:space attr
+        .replace(/\s*enable-background="[^"]*"/gi, '') // Remove enable-background attr
+        // Crush
+        .replace(/\s*\/>/g, ' />') // Add a space before the end of self-closing tags (will be removed later)
+        .replace(/(<\w+[^>]*\b\w+=['"]?)0\.(\d)/g, '$1.$2') // Remove leading zero for decimals in attribute values inside tags
+        .replace(/>\s+</g, '><') // Remove spaces between tags - Gotcha: Can't rely on whitespace between tags for styling
         .replace(/(<[a-zA-Z][^>]*>)\s+/g, '$1') // Remove whitespace after opening tags
         .replace(/\s+(<\/[a-zA-Z]+>)/g, '$1') // Remove whitespace before closing tags
         .replace(/(\w+)="([^"\s]+)(?="(?!\/>))"/g, (m, k, v) => `${k}=${v}`) // Remove " around attrs where possible (but not if followed by self-close)
-        .replace(/"\s+(?=\w+=)/g, '"') // Remove spaces **after** a closing quote before another attribute
-        .replace(/"\s+(?=\w+=)(?!\/)/g, '"') // Remove spaces **after** a closing quote before another attribute (but not if followed by self-close)
+        .replace(/"\s+(?=\s*[\w-]+=|\s*\/?>)/g, '"') // Remove spaces **after** a closing quote (but not if followed by self-close)
         .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
-        .replace(/\s+/g, ' ').trim() // Remove redundant whitespace
-        .replace(/\s*(["']?)\s*\/>/g, '$1/>'); // Remove extra space at end of self-closing tags
+        .replace(/\s*(["'])\s*\/>/g, '$1/>') // Remove space only between quote and />
+        .replace(/(\S)\s*\/>/g, '$1 />') // Ensure space before /> if no quote
+        .replace(/(?<=<[^>]+)\s+(?=>)/g, ''); // Remove space before > in tags
     });
     if (!Object.keys(svgItems).length) {
       throw new Error(`Did not find any SVG files in ${opts.inDir} folder.`);
