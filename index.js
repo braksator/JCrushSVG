@@ -30,6 +30,8 @@ let jcrushsvg = opts => {
         svgContent = svgTagMatch ? svgTagMatch[0] : null;
       if (opts.processSVG) svgContent = opts.processSVG(filePath, svgContent);
       svgItems[path.basename(file, '.svg')] = svgContent
+        // Whitespace
+        .replace(/\s+/g, ' ').trim() // Remove redundant whitespace
         // Strip attrs
         .replace(/\s*version="[^"]*"/gi, '') // Remove version attr
         .replace(/\s*baseProfile="[^"]*"/gi, '')  // Remove baseProfile attr
