@@ -227,9 +227,9 @@ jcrushSVG({ inDir: './src/img/items', outFile: './src/svgItems.js',
   },
   processJS:(filePath, jsContent) => {
     return jsContent.replace('k =>', '(k, bg, fg, op) =>')
-      .replace('🟩', '${bg}')
-      .replace('⬛', '${fg}')
-      .replace('🔲', '${op}');
+      .replace(/🟩/g, '${bg}')
+      .replace(/⬛/g, '${fg}')
+      .replace(/🔲/g, '${op}');
   },
 });
 

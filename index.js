@@ -36,8 +36,7 @@ let jcrushsvg = opts => {
         .replace(/\s*version="[^"]*"/gi, '') // Remove version attr
         .replace(/\s*baseProfile="[^"]*"/gi, '')  // Remove baseProfile attr
         .replace(/\s*id="[^"]*"/gi, '') // Remove id attr
-        .replace(/\s*xmlns:xlink="[^"]*"/gi, '') // Remove xmlns:xlink attr
-        .replace(/\s*xmlns="[^"]*"/gi, '') // Remove xmlns attr
+        .replace(/\s*xmlns(:\w+)?="[^"]*"/gi, '') // Remove any xmlns attributes
         .replace(/\s*xml:space="preserve"/gi, '') // Remove xml:space attr
         .replace(/\s*enable-background="[^"]*"/gi, '') // Remove enable-background attr
         // Crush
