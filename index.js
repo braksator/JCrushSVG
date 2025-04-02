@@ -65,7 +65,7 @@ let jcrushsvg = opts => {
       funcCode = `k => {
   ${enc[0]}
   return {
-    ${Object.entries(svgItems).map(([key, value]) => `${key}: ${value}`).join(",\n    ")}
+    ${Object.entries(svgItems).map(([key, value]) => `${key}: \`${value}\``).join(",\n    ")}
   }[k];
 }`;
     }

@@ -1,6 +1,6 @@
 {
   "name": "jcrushsvg",
-  "version": "1.1.24",
+  "version": "1.1.25",
   "description": "Javascript based SVG deduplicator and compressor",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,7 @@
   "homepage": "https://github.com/braksator/jcrushsvg#readme",
   "dependencies": {
     "fs": "^0.0.1-security",
-    "jcrush": "^1.1.9",
+    "jcrush": "^1.1.15",
     "path": "^0.12.7"
   }
 }
