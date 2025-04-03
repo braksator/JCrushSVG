@@ -75,7 +75,7 @@ let jcrushsvg = opts => {
       funcCode = `(k, el) => {
   ${enc[0]}
   return fetch(` + opts.outDir + '/${k}' + ext + `).then(r => r.text()).then(c => el.innerHTML = eval(c))
-  }`;
+}`;
     }
     let jsContent = `// This file is generated automatically. Do not modify.
 // It contains SVG code for use in the application.
