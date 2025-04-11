@@ -20,8 +20,12 @@ let jcrushsvg = opts => {
   }
   opts.break.push(breakString);
   opts.resVars.push('k');
-  opts.resVars.push('el');
-  if (opts.param) opts.let = 1;
+  if (!opts.bundle) {
+    opts.resVars.push('el');
+    opts.resVars.push('r');
+    opts.resVars.push('c');
+  }
+  if (opts.param) opts.let = 0;
   if (!opts.outDir) opts.outDir = opts.inDir;
   try {
     fs.readdirSync(opts.inDir).filter(file => path.extname(file) == '.svg').forEach(file => {
@@ -63,18 +67,17 @@ let jcrushsvg = opts => {
       svgItems[keys[k]] = v;
     });
     if (opts.bundle) {
-      funcCode = (opts.param ? '(k,' + enc[0] + ')' : 'k') + ` => {${opts.param ? '' : "\n  " + enc[0]}
-  return {
+      funcCode = (opts.param ? '(k,' + enc[0] + ')' : 'k') + ` => {${opts.param ? '' : "\n  " + enc[0]}`
+(opts.param ? '' : "\n  return {") + `
     ${Object.entries(svgItems).map(([key, value]) => `${key}: \`${value}\``).join(",\n    ")}
-  }[k];
-}`;
+  }[k]` + (opts.param ? ';' : ";\n}");
     }
     else {
       let ext = opts.appendExt ? '.svg.js' : '.js';
       for (let key in svgItems) fs.writeFileSync(opts.outDir + '/' + key + ext, svgItems[key]);
-      funcCode = (opts.param ? '(k,el,' + enc[0] + ')' : '(k, el)') + ` => {${opts.param ? '' : "\n  " + enc[0]}
-  return fetch(` + opts.outDir + '/${k}' + ext + `).then(r => r.text()).then(c => el.innerHTML = eval(c))
-}`;
+      funcCode = (opts.param ? '(k,el,' + enc[0] + ')' : '(k, el)') + ` => ${opts.param ? '' : "{\n  " + enc[0]}` +
+      `${opts.param ? '' : "\n  return "}fetch(` + opts.outDir + '/${k}' + ext + `).then(r => r.text()).then(c => el.innerHTML = eval(c))` +
+      (opts.param ? ';' : "\n}");
     }
     let jsContent = `// This file is generated automatically. Do not modify.
 // It contains SVG code for use in the application.
