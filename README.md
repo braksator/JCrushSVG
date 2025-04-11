@@ -162,6 +162,10 @@ A configuration object with the following properties:
   - If `false`, will load SVGs from individual JS files on an as-needed basis, reducing loading overhead. The SVG function accepts a DOM element
   and will replace its contents with the SVG once it is loaded.
 
+- `param` (Boolean, default `false`):
+  - If 'true' will paramaterize the replacement variables for silghtly shorter output.
+  - If 'false' will included the replacement variables in the function body.
+
 - `appendExt` (Boolean, default: `true`):
   - If `true`, will create the individual JS files with ".svg.js" extensions.
   - If `false`, will create the individual JS files with just ".js" extensions.

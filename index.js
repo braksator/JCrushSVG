@@ -12,7 +12,7 @@ var jcrush = require('jcrush');
 
 let jcrushsvg = opts => {
   let svgItems = {}, joinString = '★', breakString = '•';
-  opts = { ...{ inDir: '', outDir: '', outFile: 'svg.js', bundle: 0, processSVG: null, processJS: null, prog: 1, tpl: 1, break: [],
+  opts = { ...{ inDir: '', outDir: '', outFile: 'svg.js', bundle: 0, processSVG: null, processJS: null, prog: 1, tpl: 1, break: [], param: 0,
     tplEsc: 0, funcName: 'svg', wrap: 'custom', customPre: joinString, customPost: ' ', resVars: [], let: 1, maxLen: 40 }, ...opts };
   if (opts.checkNew && fs.existsSync(opts.outFile) && !fs.readdirSync(opts.inDir).some(f => fs.statSync(path.join(opts.inDir, f)).mtime > fs.statSync(opts.outFile).mtime)) {
     console.log(`JCrush SVG checked ${opts.inDir} and determined ${opts.outFile} is already up-to-date. ✔️`);
@@ -21,6 +21,7 @@ let jcrushsvg = opts => {
   opts.break.push(breakString);
   opts.resVars.push('k');
   opts.resVars.push('el');
+  if (opts.param) opts.let = 1;
   if (!opts.outDir) opts.outDir = opts.inDir;
   try {
     fs.readdirSync(opts.inDir).filter(file => path.extname(file) == '.svg').forEach(file => {
@@ -62,8 +63,7 @@ let jcrushsvg = opts => {
       svgItems[keys[k]] = v;
     });
     if (opts.bundle) {
-      funcCode = `k => {
-  ${enc[0]}
+      funcCode = (opts.param ? '(k,' + enc[0] + ')' : 'k') + ` => {${opts.param ? '' : "\n  " + enc[0]}
   return {
     ${Object.entries(svgItems).map(([key, value]) => `${key}: \`${value}\``).join(",\n    ")}
   }[k];
@@ -72,8 +72,7 @@ let jcrushsvg = opts => {
     else {
       let ext = opts.appendExt ? '.svg.js' : '.js';
       for (let key in svgItems) fs.writeFileSync(opts.outDir + '/' + key + ext, svgItems[key]);
-      funcCode = `(k, el) => {
-  ${enc[0]}
+      funcCode = (opts.param ? '(k,el,' + enc[0] + ')' : '(k, el)') + ` => {${opts.param ? '' : "\n  " + enc[0]}
   return fetch(` + opts.outDir + '/${k}' + ext + `).then(r => r.text()).then(c => el.innerHTML = eval(c))
 }`;
     }
