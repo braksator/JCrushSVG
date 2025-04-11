@@ -23,7 +23,6 @@ let jcrushsvg = opts => {
   if (!opts.bundle) {
     opts.resVars.push('el');
     opts.resVars.push('r');
-    opts.resVars.push('c');
   }
   let wasLetSet = opts.let;
   if (opts.param) opts.let = 0;
@@ -77,7 +76,7 @@ let jcrushsvg = opts => {
       let ext = opts.appendExt ? '.svg.js' : '.js';
       for (let key in svgItems) fs.writeFileSync(opts.outDir + '/' + key + ext, svgItems[key]);
       funcCode = (opts.param ? '(k,el,' + enc[0].slice(0, -1) + ')' : '(k, el)') + ` => ${opts.param ? '' : "{\n  " + enc[0]}` +
-      `${opts.param ? '' : "\n  return "}fetch(` + opts.outDir + '/${k}' + ext + `).then(r => r.text()).then(c => el.innerHTML = eval(c))` +
+      `${opts.param ? '' : "\n  return "}fetch(\`` + opts.outDir + '/${k}' + ext + `\`).then(r => r.text()).then(r => el.innerHTML = eval(r))` +
       (opts.param ? ';' : "\n}");
     }
     let jsContent = `// This file is generated automatically. Do not modify.
