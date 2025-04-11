@@ -68,15 +68,15 @@ let jcrushsvg = opts => {
       svgItems[keys[k]] = v;
     });
     if (opts.bundle) {
-      funcCode = (opts.param ? '(k,' + enc[0] + ')' : 'k') + ` => {${opts.param ? '' : "\n  " + enc[0]}`
-(opts.param ? '' : "\n  return {") + `
-    ${Object.entries(svgItems).map(([key, value]) => `${key}: \`${value}\``).join(",\n    ")}
-  }[k]` + (opts.param ? ';' : ";\n}");
+      funcCode = (opts.param ? '(k,' + enc[0].slice(0, -1) + ')' : 'k') + ` => ${opts.param ? '({' : "{\n  " + enc[0]}` +
+      (opts.param ? '' : "\n  return {") + `
+      ${Object.entries(svgItems).map(([key, value]) => `${key}: \`${value}\``).join(",\n    ")}
+  }[k]` + (opts.param ? ');' : ";\n}");
     }
     else {
       let ext = opts.appendExt ? '.svg.js' : '.js';
       for (let key in svgItems) fs.writeFileSync(opts.outDir + '/' + key + ext, svgItems[key]);
-      funcCode = (opts.param ? '(k,el,' + enc[0] + ')' : '(k, el)') + ` => ${opts.param ? '' : "{\n  " + enc[0]}` +
+      funcCode = (opts.param ? '(k,el,' + enc[0].slice(0, -1) + ')' : '(k, el)') + ` => ${opts.param ? '' : "{\n  " + enc[0]}` +
       `${opts.param ? '' : "\n  return "}fetch(` + opts.outDir + '/${k}' + ext + `).then(r => r.text()).then(c => el.innerHTML = eval(c))` +
       (opts.param ? ';' : "\n}");
     }
