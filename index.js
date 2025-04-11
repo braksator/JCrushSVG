@@ -25,6 +25,7 @@ let jcrushsvg = opts => {
     opts.resVars.push('r');
     opts.resVars.push('c');
   }
+  let wasLetSet = opts.let;
   if (opts.param) opts.let = 0;
   if (!opts.outDir) opts.outDir = opts.inDir;
   try {
@@ -82,7 +83,7 @@ let jcrushsvg = opts => {
     let jsContent = `// This file is generated automatically. Do not modify.
 // It contains SVG code for use in the application.
 // Generated from SVG files in the ${opts.inDir} folder.
-let ${opts.funcName} = ${funcCode}`;
+${wasLetSet ? 'let ' : ''}${opts.funcName} = ${funcCode}`;
     if (opts.processJS) jsContent = opts.processJS(opts.outFile, jsContent);
     fs.writeFileSync(opts.outFile, jsContent);
     opts.prog && console.log('Main SVG JS file created: ' + opts.outFile);

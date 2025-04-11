@@ -166,6 +166,10 @@ A configuration object with the following properties:
   - If 'true' will paramaterize the replacement variables for silghtly shorter output.
   - If 'false' will included the replacement variables in the function body.
 
+- `let` (Boolean, default `true`):
+  - If 'true' will prepend the main function with a let keyword.
+  - If 'false' will omit let keyword.
+
 - `appendExt` (Boolean, default: `true`):
   - If `true`, will create the individual JS files with ".svg.js" extensions.
   - If `false`, will create the individual JS files with just ".js" extensions.
