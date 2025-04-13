@@ -68,9 +68,8 @@ let jcrushsvg = opts => {
     });
     if (opts.bundle) {
       funcCode = (opts.param ? '(k,' + enc[0].slice(0, -1) + ')' : 'k') + ` => ${opts.param ? '({' : "{\n  " + enc[0]}` +
-      (opts.param ? '' : "\n  return {") + `
-  ${Object.entries(svgItems).map(([key, value]) => `${key}: \`${value}\``).join(",\n  ")}
-  }[k]` + (opts.param ? ');' : ";\n}");
+      (opts.param ? '' : "\n  return {") + "\n  " + Object.entries(svgItems).map(([key, value]) => `${key}: \`${value}\``).join(",\n  ") +
+      '}[k]' + (opts.param ? ');' : ";\n}");
     }
     else {
       let ext = opts.appendExt ? '.svg.js' : '.js';
