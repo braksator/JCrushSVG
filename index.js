@@ -64,7 +64,7 @@ let jcrushsvg = opts => {
       keys = Object.keys(svgItems),
       enc = jcrush.code(Object.values(svgItems).join(breakString), opts).split(joinString);
     enc[1].split(breakString).forEach((v, k) => {
-      svgItems[keys[k]] = v;
+      svgItems[keys[k]] = v.trim();
     });
     if (opts.bundle) {
       funcCode = (opts.param ? '(k,' + enc[0].slice(0, -1) + ')' : 'k') + ` => ${opts.param ? '({' : "{\n  " + enc[0]}` +
