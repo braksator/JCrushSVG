@@ -53,8 +53,8 @@ let jcrushsvg = opts => {
         .replace(/(\w+)="([^"\s]+)(?="(?!\/>))"/g, (m, k, v) => `${k}=${v}`) // Remove " around attrs where possible (but not if followed by self-close)
         .replace(/"\s+(?=\s*[\w-]+=|\s*\/?>)/g, '"') // Remove spaces **after** a closing quote (but not if followed by self-close)
         .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
-        .replace(/\s*(["'])\s*\/>/g, '$1/>') // Remove space only between quote and />
         .replace(/(\S)\s*\/>/g, '$1 />') // Ensure space before /> if no quote
+        .replace(/\s*(["'])\s*\/>/g, '$1/>') // Remove space only between quote and />
         .replace(/(?<=<[^>]+)\s+(?=>)/g, ''); // Remove space before > in tags
     });
     if (!Object.keys(svgItems).length) {
